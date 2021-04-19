@@ -1,0 +1,169 @@
+/* You can add global styles to this file, and also import other style files */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+body {
+    background-color: #F2F5F9;
+    font-family: 'Nunito', sans-serif;
+}
+
+.navbar {
+    background-color: #fff;
+}
+
+#wrapper {
+    overflow-x: hidden;
+}
+
+.sidebar {
+    background-color: #084d6e;
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+}
+
+.sidebar-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin: 0 1rem 1rem;
+}
+
+.img-profile {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.username {
+    font-size: 16px;
+    color: #858796;
+}
+
+.nav-link {
+    font-size: 14px;
+    color: #e0e0e0;
+    margin: 5px;
+    transition: .3s all ease-in-out;
+}
+
+.nav-link:hover {
+    color: #b8b8b8;
+}
+
+.container-fluid {
+    padding-left: 20px;
+}
+
+.bemvindo {
+    font-size: 17px;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+.bemvindo span {
+    color: #101e35;
+}
+
+.btn-resposive {
+    background-color: #101e35;
+    color: #e0e0e0;
+}
+
+.btn-resposive:focus {
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+    color: #e0e0e0;
+}
+
+@media only screen and (min-width: 771px) {
+    #menu-toggle {
+        display: none;
+    }
+}
+
+.sidebar .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.6rem;
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.sidebar .list-group {
+    width: 15rem;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+#wrapper.toggled .sidebar {
+    margin-left: 0;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        margin-left: 0;
+    }
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+    #wrapper.toggled .sidebar {
+        margin-left: -15rem;
+    }
+}
+
+.active {
+    color: #ffd700;
+}
+
+.cadastrar-pedido {
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.25);
+}
+
+.cadastrar-pedido input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.cadastrar-pedido label {
+    font-size: 18px;
+    padding-top: 10px;
+}
+
+.tabela {
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.25);
+}
+
+.btn-salvar {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    background: #ffd700;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.disabled {
+    margin-top: 5px;
+}

@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg mb-4 static-top shadow">
+
+    <button class="btn btn-resposive" id="menu-toggle"><i class="fas fa-align-justify"></i></button>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
+        aria-expanded="false">
+        <i class="fas fa-user"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <div class="username">Manuela Eloá da Luz<img class="img-profile"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8bkbf7xVfYojJRzTS2BM8iuWLnJPGs3Kjnw&usqp=CAU">
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" (click)="logout()">Sair</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

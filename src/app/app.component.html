@@ -1,0 +1,17 @@
+<div class="d-flex" id="wrapper" *ngIf="currentUser">
+
+    <app-sidebar-menu></app-sidebar-menu>
+
+    <div id="page-content-wrapper">
+
+        <app-topbar-menu></app-topbar-menu>
+
+        <alert></alert>
+
+        <router-outlet></router-outlet>
+
+    </div>
+</div>
+
+
+<router-outlet></router-outlet>
