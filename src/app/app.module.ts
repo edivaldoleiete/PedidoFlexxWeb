@@ -14,6 +14,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './helpers/jwt-interceptor';
 import { ErrorInterceptor } from './helpers/error-interceptor';
 import { fakeBackendProvider } from './helpers/fake-backend-interceptor';
+import { ProdutosComponent } from './produtos/produtos.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { fakeBackendProvider } from './helpers/fake-backend-interceptor';
     SidebarMenuComponent,
     TopbarMenuComponent,
     PedidosComponent,
-    AlertComponent
+    AlertComponent,
+    ProdutosComponent
   ],
   imports: [
     BrowserModule,

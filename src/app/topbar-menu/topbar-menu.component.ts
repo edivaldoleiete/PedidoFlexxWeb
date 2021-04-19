@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { AuthenticationService } from '../services/authentication.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-topbar-menu',
@@ -19,7 +20,12 @@ export class TopbarMenuComponent implements OnInit {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    $("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  }
 
   logout() {
     this.authenticationService.logout();

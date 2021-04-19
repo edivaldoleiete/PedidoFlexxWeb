@@ -8,7 +8,7 @@ import { UseExistingWebDriver } from 'protractor/built/driverProviders';
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let user = new User();
-user.username = "marcos";
+user.username = "opensys";
 user.password = "admin";
 users.push(user);
 
