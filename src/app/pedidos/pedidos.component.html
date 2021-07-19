@@ -5,60 +5,119 @@
         <form>
             <div class="row">
                 <div class="col-md-6">
-                    <label>Nro. Pedido</label><br>
-                    <input type="number"><br>
 
-                    <label>Cliente</label><br>
-                    <input type="number"><br>
-                    <input class="disabled" type="text" value="DOLCE HOME COMERCIO DE UTILIDADES DOMESTICAS LTDA."
-                        disabled><br>
+                    <label>Nro. Pedido:</label>
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control" readonly placeholder="Inserido automaticamente...">
+                    </div>
 
-                    <label>Transportador</label><br>
-                    <input type="number"><br>
-                    <input class="disabled" type="text" value="TRUCK TRANSP RODOVIARIO" disabled><br>
+                    <label>Cliente:</label>
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="text" [value]="razaoCliente" readonly>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" (click)="openModal(cliente)">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                    <label>Cond. de pagamento</label><br>
-                    <input type="number"><br>
-                    <input class="disabled" type="text" value="28 DIAS" disabled><br>
+                    <label>Transportador:</label>
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="text" [value]="razaoTransportadora" readonly>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" (click)="openModal(transportadora)">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                    <label>Vendedor</label><br>
-                    <input type="number"><br>
+                    <label>Cond. de pagamento:</label>
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="text" [value]="descricaoCondicaoPagamento" readonly>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" (click)="openModal(condpagto)">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                    <label>Tabela</label><br>
-                    <input type="number"><br>
+                    <label>Vendedor:</label>
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="text" readonly>
+                    </div>
 
-                    <label>Observações</label><br>
-                    <input type="text"><br>
+                    <label>Tabela:</label>
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="text" [value]="descricaoTabela" readonly>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" (click)="openModal(tabela)">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <label>Observações:</label>
+                    <div class="input-group mb-3">
+                        <textarea class="form-control" [formControl]="observacoes" type="text"></textarea>
+                    </div>
+
                 </div>
 
                 <div class="col-md-6">
-                    <label>Desconto geral</label><br>
-                    <input type="number"><br>
+                    <label>Desconto geral:</label>
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="text" [value]="descricaoDesconto" readonly>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" (click)="openModal(desconto)">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                    <label>N da O.C.</label><br>
-                    <input type="number"><br>
+                    <label>N da O.C.:</label>
+                    <div class="input-group mb-3">
+                        <input type="text" [formControl]="numeroOC">
+                    </div>
 
-                    <label>Entrega</label><br>
-                    <input type="number"><br>
+                    <label>Entrega:</label>
+                    <div class="input-group mb-3">
+                        <input type="text" [formControl]="dataEntrega">
+                    </div>
 
-                    <label>Data base Venc.</label><br>
-                    <input type="number"><br>
+                    <label>Data base Vencimento:</label>
+                    <div class="input-group mb-3">
+                        <input type="text" [formControl]="dataBaseVencimento">
+                    </div>
 
-                    <label>Valor Frete</label><br>
-                    <input type="number"><br>
+                    <label>Valor Frete:</label>
+                    <div class="input-group mb-3">
+                        <input type="number" [formControl]="valorFrete">
+                    </div>
 
-                    <label>Valor Desc</label><br>
-                    <input type="number"><br>
+                    <label>Valor Desconto:</label>
+                    <div class="input-group mb-3">
+                        <input type="number" [formControl]="valorDesconto">
+                    </div>
 
-                    <label>Valor total</label><br>
-                    <input type="number"><br>
+                    <label>Valor total:</label>
+                    <div class="input-group mb-3">
+                        <input type="number" [formControl]="valorTotal">
+                    </div>
                 </div>
             </div>
-            <button class="btn-salvar">Salvar pedido</button>
+            <button class="btn-salvar" (click)="salvarPedido()"><i class="far fa-save fa-lg"></i></button>
         </form>
     </div>
 
     <h1 class="h3 mb-2 mt-5">Tabela pedido</h1>
+
+    <form>
+        <div class="input-group mb-3">
+            <button type="button" class="btn btn-primary" (click)="openModal(produto)">
+                Adicionar itens ao pedido <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
 
     <div class="tabela mb-5">
         <table class="table table-responsive">
@@ -102,7 +161,231 @@
                 </tr>
             </tbody>
         </table>
-
-        <button class="btn-salvar">Salvar itens do pedido</button>
     </div>
 </div>
+
+<ng-template #cliente>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Buscar Cliente</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <input class="form-control" type="text" [formControl]="buscaCliente"
+                    placeholder="Digite o documento do cliente..." (keyup.enter)="buscarDocumentoCliente()">
+            </div>
+            <br>
+            <div class="row" *ngIf="listaClientes.length > 0">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>CGC</th>
+                            <th>Razão</th>
+                            <th>Fantasia</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cliente of listaClientes">
+                                <td (click)="selecionarCliente(cliente)">{{cliente.cgc}}</td>
+                                <td>{{cliente.razao}}</td>
+                                <td>{{cliente.fantasia}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #transportadora>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Buscar Transportadora</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <input class="form-control" type="text" [formControl]="buscaTransportadora"
+                    placeholder="Digite o documento do transportador..."
+                    (keyup.enter)="buscarDocumentoTransportadora()">
+            </div>
+            <br>
+            <div class="row" *ngIf="listaTransportadoras.length > 0">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>CGC</th>
+                            <th>Razão</th>
+                            <th>Fantasia</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let transportadora of listaTransportadoras">
+                                <td (click)="selecionarTransportadora(transportadora)">{{transportadora.cgc}}</td>
+                                <td>{{transportadora.razao}}</td>
+                                <td>{{transportadora.fantasia}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #condpagto>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Buscar Condição de Pagamento</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <input class="form-control" type="text" [formControl]="buscaCondPagto"
+                    placeholder="Digite a descrição da condição de pagamento..."
+                    (keyup.enter)="buscarCondicaoPagamento()">
+            </div>
+            <br>
+            <div class="row" *ngIf="listaCondPagto.length > 0">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cond of listaCondPagto">
+                                <td (click)="selecionarCondPagto(cond)">{{cond.codigo}}</td>
+                                <td>{{cond.descricao}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #desconto>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Buscar Desconto</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <input class="form-control" type="text" [formControl]="buscaDesconto"
+                    placeholder="Digite a descrição do desconto..." (keyup.enter)="buscarDesconto()">
+            </div>
+            <br>
+            <div class="row" *ngIf="listaDesconto.length > 0">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let desconto of listaDesconto">
+                                <td (click)="selecionarDesconto(desconto)">{{desconto.codigo_desconto}}</td>
+                                <td>{{desconto.descricao_desconto}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #tabela>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Buscar Tabela</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <input class="form-control" type="text" [formControl]="buscaTabela"
+                    placeholder="Digite o código da Tabela..." (keyup.enter)="buscarTabelaPreco()">
+            </div>
+            <br>
+            <div class="row" *ngIf="listaTabela.length > 0">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Código</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tabela of listaTabela">
+                                <td (click)="selecionarTabela(tabela)">{{tabela.id}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #produto>
+    <div class="modal-lg">
+
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Buscar Produto</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <input class="form-control" type="text" [formControl]="buscaProduto"
+                        placeholder="Digite o código do produto..." (keyup.enter)="buscarProduto()">
+                </div>
+                <br>
+                <div class="row" *ngIf="listaProdutos.length > 0">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <th></th>
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Qtd.</th>
+                                <th>Ações</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let produto of listaProdutos">
+                                    <td><img [src]=produto.url width="35"></td>
+                                    <td (click)="selecionarProduto(produto)">{{produto.produto}}</td>
+                                    <td>{{produto.descricao}}</td>
+                                    <td>R$ {{produto.preco}}</td>
+                                    <td><input class="form-control input-table col-md-2" type="number" placeholder="10">
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success"><i class="far fa-save fa-sm"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

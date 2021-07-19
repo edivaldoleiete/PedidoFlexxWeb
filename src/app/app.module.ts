@@ -15,6 +15,8 @@ import { JwtInterceptor } from './helpers/jwt-interceptor';
 import { ErrorInterceptor } from './helpers/error-interceptor';
 import { fakeBackendProvider } from './helpers/fake-backend-interceptor';
 import { ProdutosComponent } from './produtos/produtos.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { PedidosListagemComponent } from './pedidos-listagem/pedidos-listagem.component';
 
 @NgModule({
   declarations: [
@@ -25,14 +27,16 @@ import { ProdutosComponent } from './produtos/produtos.component';
     TopbarMenuComponent,
     PedidosComponent,
     AlertComponent,
-    ProdutosComponent
+    ProdutosComponent,
+    PedidosListagemComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ModalModule.forRoot()
   ], 
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

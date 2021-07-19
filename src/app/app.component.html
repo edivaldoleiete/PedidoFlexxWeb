@@ -1,17 +1,24 @@
-<div class="d-flex" id="wrapper" *ngIf="currentUser">
+<ng-container *ngIf="currentUser">
 
-    <app-sidebar-menu></app-sidebar-menu>
+    <div class="d-flex">
 
-    <div id="page-content-wrapper">
-
-        <app-topbar-menu></app-topbar-menu>
-
-        <alert></alert>
-
-        <router-outlet></router-outlet>
-
+        <app-sidebar-menu></app-sidebar-menu>
+    
+        <div id="page-content-wrapper">
+    
+            <app-topbar-menu></app-topbar-menu>
+    
+            <alert></alert>
+    
+            <router-outlet></router-outlet>
+    
+        </div>
     </div>
-</div>
 
+</ng-container>
 
-<router-outlet></router-outlet>
+<ng-container *ngIf="!currentUser">
+
+    <router-outlet></router-outlet>
+    
+</ng-container>
