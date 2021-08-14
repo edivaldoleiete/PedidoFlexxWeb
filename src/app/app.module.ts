@@ -17,6 +17,8 @@ import { fakeBackendProvider } from './helpers/fake-backend-interceptor';
 import { ProdutosComponent } from './produtos/produtos.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PedidosListagemComponent } from './pedidos-listagem/pedidos-listagem.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { PedidosListagemComponent } from './pedidos-listagem/pedidos-listagem.co
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
   ], 
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

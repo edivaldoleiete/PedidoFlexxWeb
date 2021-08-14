@@ -8,7 +8,7 @@
 
                     <label>Nro. Pedido:</label>
                     <div class="input-group mb-3">
-                        <input type="number" class="form-control" readonly placeholder="Inserido automaticamente...">
+                        <input type="number" class="form-control" [value]="idPedido" readonly placeholder="Inserido automaticamente...">
                     </div>
 
                     <label>Cliente:</label>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
 
-                    <label>Observações:</label>
+                    <label>Observações: *</label>
                     <div class="input-group mb-3">
                         <textarea class="form-control" [formControl]="observacoes" type="text"></textarea>
                     </div>
@@ -81,12 +81,12 @@
 
                     <label>Entrega:</label>
                     <div class="input-group mb-3">
-                        <input type="text" [formControl]="dataEntrega">
+                        <input type="text" [formControl]="dataEntrega" bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD', containerClass:'theme-dark-blue' }">
                     </div>
 
                     <label>Data base Vencimento:</label>
                     <div class="input-group mb-3">
-                        <input type="text" [formControl]="dataBaseVencimento">
+                        <input type="text" [formControl]="dataBaseVencimento" bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD', containerClass:'theme-dark-blue' }">
                     </div>
 
                     <label>Valor Frete:</label>
@@ -109,59 +109,51 @@
         </form>
     </div>
 
-    <h1 class="h3 mb-2 mt-5">Tabela pedido</h1>
+    <ng-container *ngIf="idPedido != null">
+        
+        <h1 class="h3 mb-2 mt-5">Tabela pedido</h1>
 
-    <form>
-        <div class="input-group mb-3">
-            <button type="button" class="btn btn-primary" (click)="openModal(produto)">
-                Adicionar itens ao pedido <i class="fas fa-search"></i>
-            </button>
+        <form>
+            <div class="input-group mb-3">
+                <button type="button" class="btn btn-primary" (click)="openModal(produto)">
+                    Adicionar itens ao pedido <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+
+        <div class="row mb-5" *ngIf="listaItensPedido.length < 1">
+            <p>Não há itens cadastrados para este pedido.</p>
         </div>
-    </form>
+        <div class="tabela mb-5" *ngIf="listaItensPedido.length > 0">
+            <div class="table-responsive">
 
-    <div class="tabela mb-5">
-        <table class="table table-responsive">
-            <thead>
-                <tr>
-                    <th scope="col">Produto</th>
-                    <th scope="col">Unidade</th>
-                    <th scope="col">Quantidade</th>
-                    <th scope="col">Preço</th>
-                    <th scope="col">Desconto</th>
-                    <th scope="col">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>91 - DO459: Forma de mini bolo de Silicione. Cont m 6 moldes. Medida 29.6 5cm. Resist
-                        ncia -40c a 220c. Valdiade indeterminada</th>
-                    <td>PECA - PECA</td>
-                    <td>1,00</td>
-                    <td>4,55</td>
-                    <td></td>
-                    <td>4,50</td>
-                </tr>
-                <tr>
-                    <th>92 - DO459: Forma de mini bolo de Silicione. Cont m 6 moldes. Medida 29.6 5cm. Resist
-                        ncia -40c a 220c. Valdiade indeterminada</th>
-                    <td>PECA - PECA</td>
-                    <td>1,00</td>
-                    <td>4,55</td>
-                    <td></td>
-                    <td>4,50</td>
-                </tr>
-                <tr>
-                    <th>93 - DO459: Forma de mini bolo de Silicione. Cont m 6 moldes. Medida 29.6 5cm. Resist
-                        ncia -40c a 220c. Valdiade indeterminada</th>
-                    <td>PECA - PECA</td>
-                    <td>1,00</td>
-                    <td>4,55</td>
-                    <td></td>
-                    <td>4,50</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Preço</th>
+                            <th scope="col">Total</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listaItensPedido">
+                            <td>{{item.produto + ' - ' + item.descricao}}</td>
+                            <td>{{item.quant}}</td>
+                            <td>{{item.preco}}</td>
+                            <td>{{item.totalitem}}</td>
+                            <td>
+                                <button class="btn-deletar" (click)="apagarItemPedido(item.produto)"><i class="far fa-trash-alt fa-md"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </ng-container>
+
 </div>
 
 <ng-template #cliente>
@@ -174,8 +166,15 @@
     <div class="modal-body">
         <div class="container">
             <div class="row">
-                <input class="form-control" type="text" [formControl]="buscaCliente"
+                <div class="input-group">
+                    <input class="form-control" type="text" [formControl]="buscaCliente"
                     placeholder="Digite o documento do cliente..." (keyup.enter)="buscarDocumentoCliente()">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" (click)="buscarDocumentoCliente()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <br>
             <div class="row" *ngIf="listaClientes.length > 0">
@@ -187,8 +186,8 @@
                             <th>Fantasia</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let cliente of listaClientes">
-                                <td (click)="selecionarCliente(cliente)">{{cliente.cgc}}</td>
+                            <tr *ngFor="let cliente of listaClientes" (click)="selecionarCliente(cliente); modalRef.hide();">
+                                <td>{{cliente.cgc}}</td>
                                 <td>{{cliente.razao}}</td>
                                 <td>{{cliente.fantasia}}</td>
                             </tr>
@@ -211,9 +210,16 @@
     <div class="modal-body">
         <div class="container">
             <div class="row">
-                <input class="form-control" type="text" [formControl]="buscaTransportadora"
+                <div class="input-group">
+                    <input class="form-control" type="text" [formControl]="buscaTransportadora"
                     placeholder="Digite o documento do transportador..."
                     (keyup.enter)="buscarDocumentoTransportadora()">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" (click)="buscarDocumentoTransportadora()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <br>
             <div class="row" *ngIf="listaTransportadoras.length > 0">
@@ -225,8 +231,8 @@
                             <th>Fantasia</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let transportadora of listaTransportadoras">
-                                <td (click)="selecionarTransportadora(transportadora)">{{transportadora.cgc}}</td>
+                            <tr *ngFor="let transportadora of listaTransportadoras" (click)="selecionarTransportadora(transportadora); modalRef.hide();">
+                                <td>{{transportadora.cgc}}</td>
                                 <td>{{transportadora.razao}}</td>
                                 <td>{{transportadora.fantasia}}</td>
                             </tr>
@@ -249,9 +255,16 @@
     <div class="modal-body">
         <div class="container">
             <div class="row">
-                <input class="form-control" type="text" [formControl]="buscaCondPagto"
+                <div class="input-group">
+                    <input class="form-control" type="text" [formControl]="buscaCondPagto"
                     placeholder="Digite a descrição da condição de pagamento..."
                     (keyup.enter)="buscarCondicaoPagamento()">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" (click)="buscarCondicaoPagamento()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <br>
             <div class="row" *ngIf="listaCondPagto.length > 0">
@@ -262,8 +275,8 @@
                             <th>Descrição</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let cond of listaCondPagto">
-                                <td (click)="selecionarCondPagto(cond)">{{cond.codigo}}</td>
+                            <tr *ngFor="let cond of listaCondPagto" (click)="selecionarCondPagto(cond); modalRef.hide();">
+                                <td>{{cond.codigo}}</td>
                                 <td>{{cond.descricao}}</td>
                             </tr>
                         </tbody>
@@ -285,8 +298,15 @@
     <div class="modal-body">
         <div class="container">
             <div class="row">
-                <input class="form-control" type="text" [formControl]="buscaDesconto"
+                <div class="input-group">
+                    <input class="form-control" type="text" [formControl]="buscaDesconto"
                     placeholder="Digite a descrição do desconto..." (keyup.enter)="buscarDesconto()">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" (click)="buscarDesconto()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <br>
             <div class="row" *ngIf="listaDesconto.length > 0">
@@ -297,8 +317,8 @@
                             <th>Descrição</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let desconto of listaDesconto">
-                                <td (click)="selecionarDesconto(desconto)">{{desconto.codigo_desconto}}</td>
+                            <tr *ngFor="let desconto of listaDesconto" (click)="selecionarDesconto(desconto); modalRef.hide();">
+                                <td>{{desconto.codigo_desconto}}</td>
                                 <td>{{desconto.descricao_desconto}}</td>
                             </tr>
                         </tbody>
@@ -319,8 +339,15 @@
     <div class="modal-body">
         <div class="container">
             <div class="row">
-                <input class="form-control" type="text" [formControl]="buscaTabela"
+                <div class="input-group">
+                    <input class="form-control" type="text" [formControl]="buscaTabela"
                     placeholder="Digite o código da Tabela..." (keyup.enter)="buscarTabelaPreco()">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" (click)="buscarTabelaPreco()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <br>
             <div class="row" *ngIf="listaTabela.length > 0">
@@ -331,7 +358,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let tabela of listaTabela">
-                                <td (click)="selecionarTabela(tabela)">{{tabela.id}}</td>
+                                <td (click)="selecionarTabela(tabela); modalRef.hide()">{{tabela.id}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -354,8 +381,15 @@
         <div class="modal-body">
             <div class="container">
                 <div class="row">
-                    <input class="form-control" type="text" [formControl]="buscaProduto"
+                    <div class="input-group">
+                        <input class="form-control" type="text" [formControl]="buscaProduto"
                         placeholder="Digite o código do produto..." (keyup.enter)="buscarProduto()">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" (click)="buscarProduto()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <br>
                 <div class="row" *ngIf="listaProdutos.length > 0">
@@ -372,13 +406,13 @@
                             <tbody>
                                 <tr *ngFor="let produto of listaProdutos">
                                     <td><img [src]=produto.url width="35"></td>
-                                    <td (click)="selecionarProduto(produto)">{{produto.produto}}</td>
+                                    <td>{{produto.produto}}</td>
                                     <td>{{produto.descricao}}</td>
                                     <td>R$ {{produto.preco}}</td>
-                                    <td><input class="form-control input-table col-md-2" type="number" placeholder="10">
+                                    <td><input class="form-control input-table col-md-2" [id]="produto.produto" type="number" placeholder="0" min="1">
                                     </td>
                                     <td>
-                                        <button class="btn btn-success"><i class="far fa-save fa-sm"></i></button>
+                                        <button class="btn btn-success" (click)="salvarItemPedido(produto.produto); modalRef.hide();"><i class="far fa-save fa-sm"></i></button>
                                     </td>
                                 </tr>
                             </tbody>

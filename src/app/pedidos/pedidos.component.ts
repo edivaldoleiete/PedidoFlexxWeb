@@ -10,6 +10,12 @@ import { ProdutoService } from '../services/produto.service';
 import { Pedido } from '../models/pedido';
 import { PedidoService } from '../services/pedido.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { PedidoItem } from '../models/pedido-item.model';
+import { error } from 'selenium-webdriver';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+defineLocale('pt-br', ptBrLocale); 
 
 @Component({
   selector: 'app-pedidos',
@@ -59,8 +65,11 @@ export class PedidosComponent implements OnInit {
   listaTabela: any = [];
 
   listaProdutos: any = [];
+  listaItensPedido: any = [];
 
   pedido: Pedido = new Pedido();
+
+  idPedido = null;
  
   constructor(
     private clienteService: ClienteServiceService,
@@ -70,13 +79,15 @@ export class PedidosComponent implements OnInit {
     private tabelaService: TabelaDePrecoService,
     private modalService: BsModalService,
     private produtoService: ProdutoService,
-    private pedidoService: PedidoService
-  ) { }
+    private pedidoService: PedidoService,
+    private localeService: BsLocaleService
+  ) { 
+    localeService.use('pt-br');
+  }
 
   ngOnInit(): void {
-  //   this.produto.descricao = '';
-  //   this.produto.codigo = '';
     this.pedido.codigoVendedor = 1;
+    this.buscarItensPedido();
   }
 
   buscarDocumentoCliente() {
@@ -190,9 +201,56 @@ export class PedidosComponent implements OnInit {
 
     this.pedidoService.salvarPedido(this.pedido).subscribe(
       res => {
+        this.idPedido = res[0].idpedido;
         alert('Sucesso ao cadastrar pedido');
       },
       error => {
+        console.log(error)
+      }
+    );
+  }
+
+  salvarItemPedido(produto) {
+    let pedidoItem = new PedidoItem();
+    pedidoItem.idPedido = this.idPedido;
+    console.log(produto)
+    pedidoItem.codigoProduto = produto;
+    pedidoItem.quantidade = Number((<HTMLInputElement>document.getElementById(produto)).value);
+
+    this.produtoService.salvarItemPedido(pedidoItem).subscribe(
+      res => {
+        alert('Sucesso ao salvar item ao pedido!')
+        this.buscarItensPedido()
+      },
+      error => {
+        console.log(error)
+      }
+    );
+  }
+
+  buscarItensPedido() {
+    this.produtoService.listaItensPedido(this.idPedido).subscribe(
+      res => {
+        if(res != null) {
+          this.listaItensPedido = res;
+        } else {
+          this.listaItensPedido = [];
+        }
+      },
+      error => {
+        console.log(error)
+      }
+    );
+  }
+
+  apagarItemPedido(idItem: string) {
+    this.produtoService.apagaItemPedido(idItem, this.idPedido).subscribe(
+      res => {
+        alert('Produto excluído com sucesso')
+        this.buscarItensPedido();
+      },
+      error => {
+        alert('Erro ao excluir produto')
         console.log(error)
       }
     );

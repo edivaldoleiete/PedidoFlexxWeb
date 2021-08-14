@@ -164,6 +164,17 @@ body {
     font-weight: bold;
 }
 
+.btn-deletar {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #f00f0f;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 .disabled {
     margin-top: 5px;
 }

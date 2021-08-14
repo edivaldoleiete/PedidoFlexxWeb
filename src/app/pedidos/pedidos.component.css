@@ -1,3 +1,8 @@
 .input-table {
     max-width:60px;
 }
+
+td {
+    text-decoration: underline;
+    color: rgb(12, 91, 194);
+}

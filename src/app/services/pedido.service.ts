@@ -9,7 +9,7 @@ export class PedidoService {
 
   constructor(private http: HttpClient) { }
 
-  salvarPedido(pedido: any) {
+  salvarPedido(pedido: any): any {
     return this.http.post(`${environment.apiUrl}/pedido`, pedido);
   }
 
