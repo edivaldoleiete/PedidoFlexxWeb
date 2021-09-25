@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from './models/user';
 import { AuthenticationService } from './services/authentication.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { AuthenticationService } from './services/authentication.service';
 export class AppComponent {
   
   currentUser: User;
+  toggled = false;
 
   constructor(
     private router: Router,
@@ -19,6 +21,19 @@ export class AppComponent {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
+
+  toggle() {
+    this.toggled = !this.toggled;
+  }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
+  }
 
 }
