@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { PedidoService } from '../services/pedido.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { PedidoService } from '../services/pedido.service';
 export class PedidosListagemComponent implements OnInit {
 
   listaPedidos: any = [];
+  linkImpressao = `${environment.apiUrl}/orcamento`;
 
   constructor(private pedidoService: PedidoService) { }
 
@@ -25,6 +27,10 @@ export class PedidosListagemComponent implements OnInit {
 
       }
     );
+  }
+
+  imprimirPedido(idPedido) {
+    window.open(this.linkImpressao + '?pedido='+idPedido, '_blank');
   }
 
 }

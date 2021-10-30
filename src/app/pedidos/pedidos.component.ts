@@ -15,6 +15,8 @@ import { error } from 'selenium-webdriver';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { HttpErrorResponse } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 defineLocale('pt-br', ptBrLocale); 
 
 @Component({
@@ -26,6 +28,7 @@ export class PedidosComponent implements OnInit {
 
   cgcCliente: string = '';
   razaoCliente: string = '';
+  estadoCliente: string = '';
 
   cgcTransportadora: string = '';
   razaoTransportadora: string = '';
@@ -147,7 +150,7 @@ export class PedidosComponent implements OnInit {
   }
 
   buscarProduto() {
-    this.produtoService.buscarPorDescricao(this.buscaProduto.value).subscribe(
+    this.produtoService.buscarPorDescricao(this.buscaProduto.value, this.estadoCliente, this.codigoTabela).subscribe(
       res => {
         this.listaProdutos = res;
       },
@@ -161,6 +164,7 @@ export class PedidosComponent implements OnInit {
     this.cgcCliente = cliente.cgc;
     this.razaoCliente = cliente.razao;
     this.pedido.cgcCliente = cliente.cgc;
+    this.estadoCliente = cliente.estado;
   }
 
   selecionarTransportadora(transportadora) {
@@ -191,23 +195,23 @@ export class PedidosComponent implements OnInit {
     this.produto = produto;
   }
 
-  salvarPedido() {
+  salvarDadosPedido() {
     this.pedido.dataBaseVencimento = this.dataBaseVencimento.value;
     this.pedido.dataEntrega = this.dataEntrega.value;
     this.pedido.numeroOC = this.numeroOC.value;
     this.pedido.observacoes = this.observacoes.value;
     this.pedido.valorDesconto = this.valorDesconto.value;
     this.pedido.valorFrete = this.valorFrete.value;
-
-    this.pedidoService.salvarPedido(this.pedido).subscribe(
-      res => {
-        this.idPedido = res[0].idpedido;
+    console.log(`AQUIIIIIII`)
+    this.pedidoService.salvarPedido(this.pedido).subscribe(data => { 
+      console.log(data, `aqui2`)
+      if(data.erro != null) {
+        alert(data.erro[0].erro)
+      } else {
+        this.idPedido = data[0].idpedido
         alert('Sucesso ao cadastrar pedido');
-      },
-      error => {
-        console.log(error)
       }
-    );
+     });
   }
 
   salvarItemPedido(produto) {

@@ -10,11 +10,11 @@ export class ProdutoService {
 
   constructor(private http: HttpClient) { }
 
-  buscarPorDescricao(doc: string) {
+  buscarPorDescricao(doc: string, estado: string, tabela: string) {
     if(doc == null || doc == undefined || doc == '') {
       return this.http.get(`${environment.apiUrl}/produto`);
     }
-    return this.http.get(`${environment.apiUrl}/produto?produto=${doc}`);
+    return this.http.get(`${environment.apiUrl}/produto?produto=${doc}&uf=${estado}&tabela=${tabela}`);
   }
 
   salvarItemPedido(item: PedidoItem) {

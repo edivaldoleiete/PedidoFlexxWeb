@@ -10,6 +10,7 @@
                         <th scope="col">CPF/CPNJ</th>
                         <th scope="col">Status</th>
                         <th scope="col">Data Emissão</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,6 +19,9 @@
                         <td>{{pedido.cgc}}</td>
                         <td>{{pedido.status}}</td>
                         <td>{{pedido.dataemis_aprovacao}}</td>
+                        <td>
+                            <button class="btn btn-secondary" (click)="imprimirPedido(pedido.pedido)"><i class="far fa-clipboard fa-sm"></i></button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

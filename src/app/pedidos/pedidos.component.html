@@ -94,7 +94,7 @@
                         <input type="number" [formControl]="valorFrete">
                     </div>
 
-                    <label>Valor Desconto:</label>
+                    <label>Percentual Desconto (%):</label>
                     <div class="input-group mb-3">
                         <input type="number" [formControl]="valorDesconto">
                     </div>
@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-salvar" (click)="salvarPedido()"><i class="far fa-save fa-lg"></i></button>
+            <button class="btn-salvar" (click)="salvarDadosPedido()"><i class="far fa-save fa-lg"></i></button>
         </form>
     </div>
 
@@ -128,26 +128,38 @@
             <div class="table-responsive">
 
                 <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Produto</th>
-                            <th scope="col">Quantidade</th>
-                            <th scope="col">Preço</th>
-                            <th scope="col">Total</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
                         <tr *ngFor="let item of listaItensPedido">
-                            <td>{{item.produto + ' - ' + item.descricao}}</td>
-                            <td>{{item.quant}}</td>
-                            <td>{{item.preco}}</td>
-                            <td>{{item.totalitem}}</td>
-                            <td>
-                                <button class="btn-deletar" (click)="apagarItemPedido(item.produto)"><i class="far fa-trash-alt fa-md"></i></button>
-                            </td>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Produto</th>
+                                    <th scope="col">Quantidade</th>
+                                    <th scope="col">Preço</th>
+                                    <th scope="col">Total</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td>{{item.produto + ' - ' + item.descricao}}</td>
+                                <td>{{item.quant}}</td>
+                                <td>{{item.preco}}</td>
+                                <td>{{item.totalitem}}</td>
+                                <td>
+                                    <button class="btn-deletar" (click)="apagarItemPedido(item.produto)"><i class="far fa-trash-alt fa-md"></i></button>
+                                </td>
+                            </tbody>
+                            <thead>
+                                <th>IPI</th>
+                                <th>IVA</th>
+                                <th>ICMS</th>
+                                <th>% ST</th>
+                            </thead>
+                            <tbody>
+                                <td>{{item.valor_ipi}}</td>
+                                <td>{{item.valor_iva}}</td>
+                                <td>{{item.valor_icms}}</td>
+                                <td>{{item.valor_st}}</td>
+                            </tbody>
                         </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -395,25 +407,41 @@
                 <div class="row" *ngIf="listaProdutos.length > 0">
                     <div class="table-responsive">
                         <table class="table table-striped">
-                            <thead>
-                                <th></th>
-                                <th>Código</th>
-                                <th>Descrição</th>
-                                <th>Preço</th>
-                                <th>Qtd.</th>
-                                <th>Ações</th>
-                            </thead>
+                            
                             <tbody>
                                 <tr *ngFor="let produto of listaProdutos">
-                                    <td><img [src]=produto.url width="35"></td>
-                                    <td>{{produto.produto}}</td>
-                                    <td>{{produto.descricao}}</td>
-                                    <td>R$ {{produto.preco}}</td>
-                                    <td><input class="form-control input-table col-md-2" [id]="produto.produto" type="number" placeholder="0" min="1">
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-success" (click)="salvarItemPedido(produto.produto); modalRef.hide();"><i class="far fa-save fa-sm"></i></button>
-                                    </td>
+                                    <thead>
+                                        <th>Img</th>
+                                        <th>Código</th>
+                                        <th>Descrição</th>
+                                    </thead>
+                                    <tbody class="text-left">
+                                        <td><img [src]=produto.url width="35"></td>
+                                        <td colspan="2">{{produto.produto}}</td>
+                                        <td colspan="4">{{produto.descricao}}</td>
+                                    </tbody>
+                                    <thead>
+                                        <th>Preço</th>
+                                        <th>IPI</th>
+                                        <th>IVA</th>
+                                        <th>ICMS</th>
+                                        <th>ST</th>
+                                        <th>Qtd.</th>
+                                        <th>Ações</th>
+                                    </thead>
+                                    <tbody class="text-left">
+                                        <td>R$ {{produto.tot}}</td>
+                                        <td>{{produto.valor_ipi}}</td>
+                                        <td>{{produto.valor_iva}}</td>
+                                        <td>{{produto.valor_icms}}</td>
+                                        <td>{{produto.valor_st}}</td>
+                                        <td>
+                                            <input class="form-control input-table col-md-2" [id]="produto.produto" type="number" placeholder="0" min="1">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-success" (click)="salvarItemPedido(produto.produto); modalRef.hide();"><i class="far fa-save fa-sm"></i></button>
+                                        </td>
+                                    </tbody>
                                 </tr>
                             </tbody>
                         </table>
